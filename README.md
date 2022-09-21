@@ -12,6 +12,6 @@ ___
 ___
 
 ## To-Do
-* [ ] Decide on Project Idea
+* [x] Decide on Project Idea
 * [ ] Decide on project specs/scope
 * [ ] Create an ER Diagram
