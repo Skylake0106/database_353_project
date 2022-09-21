@@ -1,5 +1,5 @@
 # CIS 353 Databse Project
-
+## [Master Doc](https://docs.google.com/document/d/1LgntfY7G7YINdnsNOyvPwnGJwfBYG1NrA02IgJSQ03g/edit?usp=sharing)
 ___
 
 ## Members
