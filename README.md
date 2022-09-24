@@ -1,4 +1,4 @@
-# CIS 353 Databse Project
+# CIS 353 Database Project
 ## [Master Doc](https://docs.google.com/document/d/1LgntfY7G7YINdnsNOyvPwnGJwfBYG1NrA02IgJSQ03g/edit?usp=sharing)
 ___
 
