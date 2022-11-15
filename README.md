@@ -13,11 +13,11 @@ ___
 
 ## To-Do
 * [x] Decide on Project Idea
-* [ ] Submit Project Synopsis **(9/27)**
-  * [ ] Decide on project specs/scope
-* [ ] Submit a Proposal
-  * [ ] Create an ER Diagram
-  * [ ] Fill out indiviual evaluations
+* [x] Submit Project Synopsis **(9/27)**
+  * [x] Decide on project specs/scope
+* [x] Submit a Proposal
+  * [x] Create an ER Diagram
+  * [x] Fill out indiviual evaluations
 * [ ] Implement Project on Oracle
 * [ ] Submit Project Documentation
   * [ ] Fill out individual evaluations
