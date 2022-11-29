@@ -16,16 +16,16 @@ SET FEEDBACK OFF
 ---Important: Keep the number of rows in each table small enough so that the results of your
 ---queries can be verified by hand. See the Sailors database as an example.
 
-DROP TABLE Professors;
-DROP TABLE Courses;
-DROP TABLE Students;
-DROP TABLE Sections;
-DROP TABLE Curriculum;
-DROP TABLE Languages;
-DROP TABLE Teaches;
 DROP TABLE Takes;
-DROP TABLE Part_Of;
 DROP TABLE Makes_Up;
+DROP TABLE Teaches;
+DROP TABLE Professors;
+DROP TABLE Part_Of;
+DROP TABLE Sections;
+DROP TABLE Courses;
+DROP TABLE Languages;
+DROP TABLE Students;
+DROP TABLE Curriculum;
 
 
 
@@ -71,7 +71,8 @@ CREATE TABLE Languages (
     lang CHAR(15),
     l_gnumber INTEGER,
     
-    PRIMARY KEY(lang, l_gnumber)
+    PRIMARY KEY(lang, l_gnumber),
+    CONSTRAINT f2 FOREIGN KEY (l_gnumber) REFERENCES Students(s_gnumber)
 );
 
 CREATE TABLE Teaches (
@@ -79,7 +80,9 @@ CREATE TABLE Teaches (
     t_course_num INTEGER,
     preference INTEGER,
     
-    PRIMARY KEY(t_gnumber, t_course_num)
+    PRIMARY KEY(t_gnumber, t_course_num),
+    CONSTRAINT f3 FOREIGN KEY (t_gnumber) REFERENCES Professors(p_gnumber),
+    CONSTRAINT f4 FOREIGN KEY (t_course_num) REFERENCES Courses(course_id)
 );
 
 CREATE TABLE Takes (
@@ -87,22 +90,27 @@ CREATE TABLE Takes (
     sec_num INTEGER,
     grade CHAR(25),
 
-    PRIMARY KEY(gnum, sec_num)
+    PRIMARY KEY(gnum, sec_num),
+    CONSTRAINT f6 FOREIGN KEY (sec_num) REFERENCES Sections(section_num)
 );
 
 CREATE TABLE Part_Of (
     curr_id INTEGER,
     gnumber INTEGER,
     status CHAR(25),
-    PRIMARY KEY(curr_id, gnumber)
+    PRIMARY KEY(curr_id, gnumber),
+    CONSTRAINT f7 FOREIGN KEY (curr_id) REFERENCES Curriculum(currID),
+    CONSTRAINT f8 FOREIGN KEY (gnumber) REFERENCES Students(s_gnumber)
 );
 
 CREATE TABLE Makes_Up (
     curr_num INTEGER,
     course_number INTEGER,
-    ---req BOOLEAN NOT NULL,
+    req INTEGER,
 
-    PRIMARY KEY(curr_num, course_number)
+    PRIMARY KEY(curr_num, course_number),
+    CONSTRAINT f9 FOREIGN KEY (curr_num) REFERENCES Curriculum(currID),
+    CONSTRAINT f10 FOREIGN KEY (course_number) REFERENCES Courses(course_id)
 );
 
 
