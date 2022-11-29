@@ -16,24 +16,25 @@ SET FEEDBACK OFF
 ---Important: Keep the number of rows in each table small enough so that the results of your
 ---queries can be verified by hand. See the Sailors database as an example.
 
-DROP TABLE Takes;
 DROP TABLE Makes_Up;
-DROP TABLE Teaches;
-DROP TABLE Professors;
 DROP TABLE Part_Of;
-DROP TABLE Sections;
-DROP TABLE Courses;
+DROP TABLE Takes;
+DROP TABLE Teaches;
 DROP TABLE Languages;
+DROP TABLE Sections;
+DROP TABLE Professors;
+DROP TABLE Courses;
 DROP TABLE Students;
 DROP TABLE Curriculum;
-
 
 
 CREATE TABLE Professors (
     p_gnumber INTEGER PRIMARY KEY,
     p_email CHAR(25)  NOT NULL,
     p_position INTEGER NOT NULL,
-    p_name CHAR(25) NOT NULL,
+    p_name CHAR(25) NOT NULL
+
+
 );
 
 CREATE TABLE Courses (
@@ -45,15 +46,12 @@ CREATE TABLE Courses (
 CREATE TABLE Students (
     s_gnumber INTEGER PRIMARY KEY,
     s_name CHAR(25) NOT NULL,
-    s_credits INTEGER NOT NULL,
-    s_standing INTEGER NOT NULL,
-    
-    CONSTRAINT s1 CHECK (s_standing = '3' AND (s_credits > 60 AND s_credits < 84))
+    s_credits INTEGER NOT NULL
 );
 
 CREATE TABLE Sections (
     course_num INTEGER,
-    section_num INTEGER,
+    section_num INTEGER NOT NULL,
     room CHAR(10),
     sec_time char(25),
 
@@ -72,6 +70,7 @@ CREATE TABLE Languages (
     lang CHAR(15),
     l_gnumber INTEGER,
     
+
     PRIMARY KEY(lang, l_gnumber),
     CONSTRAINT f2 FOREIGN KEY (l_gnumber) REFERENCES Students(s_gnumber)
 );
@@ -89,10 +88,12 @@ CREATE TABLE Teaches (
 CREATE TABLE Takes (
     gnum INTEGER,
     sec_num INTEGER,
+    crs_num INTEGER,
     grade CHAR(25),
 
-    PRIMARY KEY(gnum, sec_num),
-    CONSTRAINT f6 FOREIGN KEY (sec_num) REFERENCES Sections(section_num)
+    PRIMARY KEY(gnum, sec_num, crs_num),
+    CONSTRAINT f5 FOREIGN KEY (gnum) REFERENCES Students(s_gnumber),
+    CONSTRAINT f6 FOREIGN KEY (sec_num, crs_num) REFERENCES Sections(section_num, course_num)
 );
 
 CREATE TABLE Part_Of (
