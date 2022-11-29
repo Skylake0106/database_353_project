@@ -56,7 +56,9 @@ CREATE TABLE Sections (
     room CHAR(10),
     sec_time char(25),
 
-    PRIMARY KEY(course_num, section_num)
+    PRIMARY KEY(course_num, section_num),
+    CONSTRAINT f1 FOREIGN KEY (course_num) REFERENCES Courses(course_id)
+    
 );
 
 CREATE TABLE Curriculum (
@@ -67,13 +69,17 @@ CREATE TABLE Curriculum (
 
 CREATE TABLE Languages (
     lang CHAR(15),
-    l_gnumber INTEGER
+    l_gnumber INTEGER,
+    
+    PRIMARY KEY(lang, l_gnumber)
 );
 
 CREATE TABLE Teaches (
     t_gnumber INTEGER,
     t_course_num INTEGER,
-    preference INTEGER
+    preference INTEGER,
+    
+    PRIMARY KEY(t_gnumber, t_course_num)
 );
 
 CREATE TABLE Takes (
