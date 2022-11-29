@@ -47,7 +47,10 @@ CREATE TABLE Courses (
 CREATE TABLE Students (
     s_gnumber INTEGER PRIMARY KEY,
     s_name CHAR(25) NOT NULL,
-    s_credits INTEGER NOT NULL
+    s_credits INTEGER NOT NULL,
+    s_standing INTEGER NOT NULL,
+    
+    CONSTRAINT s1 CHECK (s_standing = '3' AND (s_credits > 60 AND s_credits < 84))
 );
 
 CREATE TABLE Sections (
