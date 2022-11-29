@@ -33,9 +33,7 @@ CREATE TABLE Professors (
     p_gnumber INTEGER PRIMARY KEY,
     p_email CHAR(25)  NOT NULL,
     p_position INTEGER NOT NULL,
-    p_name CHAR(25) NOT NULL
-
-
+    p_name CHAR(25) NOT NULL,
 );
 
 CREATE TABLE Courses (
@@ -182,6 +180,25 @@ INSERT INTO Languages VALUES('Python', 20983432);
 
 SELECT *
 FROM Professors;
+SELECT *
+FROM Courses;
+SELECT *
+FROM Students;
+SELECT *
+FROM Sections;
+SELECT *
+FROM Curriculum;
+SELECT *
+FROM Languages;
+SELECT *
+FROM Teaches;
+SELECT *
+FROM Takes;
+SELECT *
+FROM Part_Of;
+SELECT *
+FROM Makes_Up;
+
 
 SET FEEDBACK ON
 COMMIT;
