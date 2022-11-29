@@ -99,7 +99,69 @@ CREATE TABLE Makes_Up (
     PRIMARY KEY(curr_num, course_number)
 );
 
-INSERT INTO Professors VALUES(11111111, 'kurmasz@gvsu.edu', 1, 'Zachary Kurmas');
+
+INSERT INTO Professors VALUES(11111111, 'adamsr@gvsu.edu', 1, 'Robert Adams');
+INSERT INTO Professors VALUES(2222222,'alsabbaj@gvsu.edu', 1, 'Jamal Alsabbagh');
+INSERT INTO Professors VALUES(3333333, 'bhusevji@gvsu.edu', 1, 'Vijay Bhuse');
+INSERT INTO Professors VALUES(4444444, 'bobeldyd@gvsu.edu', 1, 'Denton Bobeldyk');
+INSERT INTO Professors VALUES(12345678, 'boitj@gvsu.edu', 1, 'Sorio Boit');
+INSERT INTO Professors VALUES(11223344, 'bowmnath@gvsu.edu', 1, 'Nathaniel Bowman');
+INSERT INTO Professors VALUES(99887766, 'caox@gvsu.edu', 1, 'Xiang Cao');
+INSERT INTO Professors VALUES(55567892, 'carrieer@gvsu.edu', 1, 'Erin Carrier');
+INSERT INTO Professors VALUES(90045564, 'debruinz@gvsu.edu', 1, 'Zachary DeBruine');
+INSERT INTO Professors VALUES(17193040, 'devrieby@gvsu.edu', 1, 'Byron DeVries');
+INSERT INTO Professors VALUES(20304050, 'dowlinmi@gvsu.edu', 1, 'Michelle Dowling');
+INSERT INTO Professors VALUES(98654321, 'dujie@gvsu.edu', 1, 'Jie Du');
+INSERT INTO Professors VALUES(56565656, 'dulimarh@gvsu.edu', 1, 'Hans Dulimarta');
+INSERT INTO Professors VALUES(17895345, 'elsaidm@gvsu.edu', 1, 'Mostafa El-Said');
+INSERT INTO Professors VALUES(09090943, 'kurmasz@gvsu.edu', 1, 'Zachary Kurmas');
+
+
+
+INSERT INTO Students VALUES(23232323, 'Kyle Taylor', 113);
+INSERT INTO Students VALUES(56543245, 'Skyler Ruiter', ???);
+INSERT INTO Students VALUES(09384543, 'Jazzmin Finney', ???);
+INSERT INTO Students VALUES(12131415, 'Andrew Goodling', ???);
+INSERT INTO Students VALUES(34474039, 'Justin Johnson', ???);
+INSERT INTO Students VALUES(34474039, 'Janice Harold', 109);
+INSERT INTO Students VALUES(87432445, 'Hunter Bolt', 100);
+INSERT INTO Students VALUES(20983432, 'Paula Shargaloo', 94);
+INSERT INTO Students VALUES(14764545, 'Tom Gargle', 112);
+
+----Kyle
+INSERT INTO Languages VALUES('Sheme', 23232323);
+INSERT INTO Languages VALUES('C', 23232323);
+INSERT INTO Languages VALUES('Java', 23232323);
+INSERT INTO Languages VALUES('JavaScript', 23232323);
+INSERT INTO Languages VALUES('Python', 23232323);
+INSERT INTO Languages VALUES('Ruby', 23232323);
+INSERT INTO Languages VALUES('C#', 23232323);
+----Skyler
+INSERT INTO Languages VALUES('C', 56543245);
+----Jazz
+INSERT INTO Languages VALUES('C', 09384543);
+----Andrew
+INSERT INTO Languages VALUES('C', 12131415);
+----Justin
+INSERT INTO Languages VALUES('C', 34474039);
+
+INSERT INTO Languages VALUES('Rust', 34474039);
+INSERT INTO Languages VALUES('Ruby', 34474039);
+INSERT INTO Languages VALUES('C++', 34474039);
+INSERT INTO Languages VALUES('Java', 34474039);
+INSERT INTO Languages VALUES('Rust', 87432445);
+INSERT INTO Languages VALUES('Python', 87432445);
+INSERT INTO Languages VALUES('C', 20983432);
+INSERT INTO Languages VALUES('C++', 20983432);
+INSERT INTO Languages VALUES('C#', 20983432);
+INSERT INTO Languages VALUES('Java', 20983432);
+INSERT INTO Languages VALUES('JavaScript', 20983432);
+INSERT INTO Languages VALUES('Python', 20983432);
+--- INSERT INTO Languages VALUES('C', 14764545); --- Remove this if Languages allows for NULL
+
+
+
+
 
 SELECT *
 FROM Professors;
