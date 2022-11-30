@@ -1,5 +1,6 @@
 SPOOL project.txt
 SET ECHO ON
+
 /*
 CIS 353 - Database Design Project
 Finney, Jazzmin
@@ -8,13 +9,8 @@ Johnson, Justin
 Ruiter, Skyler
 Taylor, Kyle
 */
----< The SQL/DDL code that creates your schema >
----In the DDL, every IC must have a unique name; e.g. IC5, IC10, IC15, etc.
---
-SET FEEDBACK OFF
---< The INSERT statements that populate the tables>
----Important: Keep the number of rows in each table small enough so that the results of your
----queries can be verified by hand. See the Sailors database as an example.
+
+---- Drop Tables if they already exist ----
 
 DROP TABLE Makes_Up;
 DROP TABLE Part_Of;
@@ -27,14 +23,14 @@ DROP TABLE Courses;
 DROP TABLE Students;
 DROP TABLE Curriculum;
 
+---- Database Schema (Create Tables) ----
+
 
 CREATE TABLE Professors (
     p_gnumber INTEGER PRIMARY KEY,
     p_email CHAR(25)  NOT NULL,
     p_position INTEGER NOT NULL,
     p_name CHAR(25) NOT NULL
-
-
 );
 
 CREATE TABLE Courses (
@@ -58,7 +54,6 @@ CREATE TABLE Sections (
 
     PRIMARY KEY(course_num, section_num),
     CONSTRAINT f1 FOREIGN KEY (course_num) REFERENCES Courses(course_id)
-    
 );
 
 CREATE TABLE Curriculum (
@@ -71,7 +66,6 @@ CREATE TABLE Languages (
     lang CHAR(15),
     l_gnumber INTEGER,
     
-
     PRIMARY KEY(lang, l_gnumber),
     CONSTRAINT f2 FOREIGN KEY (l_gnumber) REFERENCES Students(s_gnumber)
 );
@@ -116,7 +110,22 @@ CREATE TABLE Makes_Up (
     CONSTRAINT f10 FOREIGN KEY (course_number) REFERENCES Courses(course_id)
 );
 
+---- Constraints ----
 
+-- Key Constraint:
+
+
+-- 1-Attribute Check:
+
+
+-- 2-Attribute 1-Row Check:
+
+
+SET FEEDBACK OFF;
+
+---- Populate Databse ----
+
+-- Populate Professors
 INSERT INTO Professors VALUES(11111111, 'adamsr@gvsu.edu', 1, 'Robert Adams');
 INSERT INTO Professors VALUES(2222222,'alsabbaj@gvsu.edu', 1, 'Jamal Alsabbagh');
 INSERT INTO Professors VALUES(3333333, 'bhusevji@gvsu.edu', 1, 'Vijay Bhuse');
@@ -134,19 +143,21 @@ INSERT INTO Professors VALUES(17895345, 'elsaidm@gvsu.edu', 1, 'Mostafa El-Said'
 INSERT INTO Professors VALUES(09090943, 'kurmasz@gvsu.edu', 1, 'Zachary Kurmas');
 
 
+-- Populate Students
+INSERT INTO Students VALUES(23232323, 'Kyle Taylor', 113, 4);
+INSERT INTO Students VALUES(56543245, 'Skyler Ruiter', 120, 3);
+INSERT INTO Students VALUES(09384543, 'Jazzmin Finney', 101, 3);
+INSERT INTO Students VALUES(12131415, 'Andrew Goodling', 120, 3);
+INSERT INTO Students VALUES(34474039, 'Justin Johnson', 110, 3);
+INSERT INTO Students VALUES(34474039, 'Janice Harold', 109, 2);
+INSERT INTO Students VALUES(87432445, 'Hunter Bolt', 100, 2);
+INSERT INTO Students VALUES(20983432, 'Paula Shargaloo', 94, 2);
+INSERT INTO Students VALUES(14764545, 'Tom Gargle', 112, 3);
 
-INSERT INTO Students VALUES(23232323, 'Kyle Taylor', 113);
-INSERT INTO Students VALUES(56543245, 'Skyler Ruiter', ???);
-INSERT INTO Students VALUES(09384543, 'Jazzmin Finney', 101);
-INSERT INTO Students VALUES(12131415, 'Andrew Goodling', ???);
-INSERT INTO Students VALUES(34474039, 'Justin Johnson', ???);
-INSERT INTO Students VALUES(34474039, 'Janice Harold', 109);
-INSERT INTO Students VALUES(87432445, 'Hunter Bolt', 100);
-INSERT INTO Students VALUES(20983432, 'Paula Shargaloo', 94);
-INSERT INTO Students VALUES(14764545, 'Tom Gargle', 112);
 
+-- Populate Languages
 ----Kyle
-INSERT INTO Languages VALUES('Sheme', 23232323);
+INSERT INTO Languages VALUES('Scheme', 23232323);
 INSERT INTO Languages VALUES('C', 23232323);
 INSERT INTO Languages VALUES('Java', 23232323);
 INSERT INTO Languages VALUES('JavaScript', 23232323);
@@ -161,7 +172,6 @@ INSERT INTO Languages VALUES('C', 09384543);
 INSERT INTO Languages VALUES('C', 12131415);
 ----Justin
 INSERT INTO Languages VALUES('C', 34474039);
-
 INSERT INTO Languages VALUES('Rust', 34474039);
 INSERT INTO Languages VALUES('Ruby', 34474039);
 INSERT INTO Languages VALUES('C++', 34474039);
@@ -174,50 +184,68 @@ INSERT INTO Languages VALUES('C#', 20983432);
 INSERT INTO Languages VALUES('Java', 20983432);
 INSERT INTO Languages VALUES('JavaScript', 20983432);
 INSERT INTO Languages VALUES('Python', 20983432);
---- INSERT INTO Languages VALUES('C', 14764545); --- Remove this if Languages allows for NULL
 
 
-
-
-
-SELECT *
-FROM Professors;
-SELECT *
-FROM Courses;
-SELECT *
-FROM Students;
-SELECT *
-FROM Sections;
-SELECT *
-FROM Curriculum;
-SELECT *
-FROM Languages;
-SELECT *
-FROM Teaches;
-SELECT *
-FROM Takes;
-SELECT *
-FROM Part_Of;
-SELECT *
-FROM Makes_Up;
-
+---- End of Populating Database ----
 
 SET FEEDBACK ON
 COMMIT;
---
----< One query (per table) of the form: SELECT * FROM table; in order to display your database >
---
----< The SQL queries>. Include the following for each query:
---- A comment line stating the query number and the feature(s) it demonstrates
----(e.g. -- Q25 – correlated subquery).
---- A comment line stating the query in English.
---- The SQL code for the query.
---
----< The insert/delete/update statements to test the enforcement of ICs >
----Include the following items for every IC that you test (Important: see the next section titled
----“Submit a final report” regarding which ICs you need to test).
---- A comment line stating: Testing: < IC name>
---- A SQL INSERT, DELETE, or UPDATE that will test the IC.
+
+---- Select Statements to View Tables ----
+SELECT * FROM Professors;
+SELECT * FROM Courses;
+SELECT * FROM Students;
+SELECT * FROM Sections;
+SELECT * FROM Curriculum;
+SELECT * FROM Languages;
+SELECT * FROM Teaches;
+SELECT * FROM Takes;
+SELECT * FROM Part_Of;
+SELECT * FROM Makes_Up;
+
+---- SQL Queries ----
+
+-- Query 1: A join involving at least 4 relations
+
+
+-- Query 2: A self-join
+
+
+-- Query 3: Union, Intersect, and/or Minus
+
+
+-- Query 4: Sum, Avg, Max, and/or Min
+
+
+-- Query 5: Group By, Having, and Order By Query
+
+
+-- Query 6: A Correlated Subquery
+
+
+-- Query 7: A Non-Correlated Subquery
+
+
+-- Query 8: A Relational Division Query
+
+
+-- Query 9: An Outer Join Query
+
+
+---- Testing of Constraints ----
+
+-- Testing <primary key constraint>
+
+
+-- Testing <key constraint name>
+
+
+-- Testing <1-attribute check name>
+
+
+-- Testing <2-attribute 1 row>
+
+---- End of Testing Constraints ----
+
 COMMIT;
---
 SPOOL OFF
