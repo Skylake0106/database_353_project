@@ -218,6 +218,14 @@ WHERE S1.s_standing > 2
 
 
 -- Query 3: Union, Intersect, and/or Minus
+---- Find the gnumber and name of students named Andrew or are seniors
+SELECT s_gnumber, s_name
+FROM Students
+WHERE s_name LIKE 'Andrew%'
+UNION
+SELECT s_gnumber, s_name
+FROM Students
+WHERE s_standing = 4;
 
 
 -- Query 4: Sum, Avg, Max, and/or Min
