@@ -209,12 +209,21 @@ SELECT * FROM Makes_Up;
 
 
 -- Query 2: A self-join
+---- Find pairs of students in the same year that are juniors or above
+SELECT S1.s_gnumber, S1.s_name, S2.s_gnumber, S2.s_name
+FROM Students S1, Students S2
+WHERE S1.s_standing > 2
+      AND S1.s_standing = S2.s_standing
+      AND S1.s_gnumber < S2.s_gnumber;
 
 
 -- Query 3: Union, Intersect, and/or Minus
 
 
 -- Query 4: Sum, Avg, Max, and/or Min
+---- Find the maximum number of credits of all students
+SELECT MAX(s_credits) AS MaxCredits
+FROM Students;
 
 
 -- Query 5: Group By, Having, and Order By Query
