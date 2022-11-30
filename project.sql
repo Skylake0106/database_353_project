@@ -35,7 +35,7 @@ CREATE TABLE Professors (
 
 CREATE TABLE Courses (
     course_id INTEGER PRIMARY KEY,
-    course_name CHAR(25) NOT NULL,
+    course_name CHAR(50) NOT NULL,
     num_credits INTEGER NOT NULL
 );
 
@@ -140,6 +140,13 @@ INSERT INTO Professors VALUES(56565656, 'dulimarh@gvsu.edu', 2, 'Hans Dulimarta'
 INSERT INTO Professors VALUES(17895345, 'elsaidm@gvsu.edu', 1, 'Mostafa El-Said');
 INSERT INTO Professors VALUES(09090943, 'kurmasz@gvsu.edu', 2, 'Zachary Kurmas');
 
+-- Populate Courses
+INSERT INTO Courses VALUES(290, 'Professional Responsibilities and Practices', 3);
+INSERT INTO Courses VALUES(331, 'Data Analysis Tools and Techniques', 3);
+INSERT INTO Courses VALUES(350, 'Introduction to Software Engineering', 3);
+INSERT INTO Courses VALUES(353, 'Database', 3);
+INSERT INTO Courses VALUES(358, 'Information Assurance', 3);
+INSERT INTO Courses VALUES(458, 'System Security', 3);
 
 -- Populate Students
 INSERT INTO Students VALUES(23232323, 'Kyle Taylor', 113, 4);
@@ -151,6 +158,15 @@ INSERT INTO Students VALUES(13467899, 'Janice Harold', 109, 2);
 INSERT INTO Students VALUES(87432445, 'Hunter Bolt', 100, 2);
 INSERT INTO Students VALUES(20983432, 'Paula Shargaloo', 94, 2);
 INSERT INTO Students VALUES(14764545, 'Tom Gargle', 112, 3);
+
+-- Populate Sections
+INSERT INTO Sections VALUES(290, 3, 'MAK A115', '1:30 PM');
+INSERT INTO Sections VALUES(331, 2, 'MAK D210', '3:00 PM');
+INSERT INTO Sections VALUES(350, 2, 'MAK A215', '8:00 AM');
+INSERT INTO Sections VALUES(353, 1, 'MAK A116', '10:00 AM');
+INSERT INTO Sections VALUES(353, 2, 'MAK A118', '2:00 PM');
+INSERT INTO Sections VALUES(358, 1, 'Online', 'Async');
+INSERT INTO Sections VALUES(458, 1, 'MAK A118', '4:00 PM');
 
 
 -- Populate Languages
