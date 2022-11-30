@@ -46,7 +46,8 @@ CREATE TABLE Courses (
 CREATE TABLE Students (
     s_gnumber INTEGER PRIMARY KEY,
     s_name CHAR(25) NOT NULL,
-    s_credits INTEGER NOT NULL
+    s_credits INTEGER NOT NULL,
+    s_standing INTEGER NOT NULL
 );
 
 CREATE TABLE Sections (
