@@ -212,21 +212,20 @@ INSERT INTO Languages VALUES('Java', 20983432);
 INSERT INTO Languages VALUES('JavaScript', 20983432);
 INSERT INTO Languages VALUES('Python', 20983432);
 
--- TEACHES CURRENTLY IN PROGRESS... Ignore this
--- INSERT INTO Teaches VALUES(11111111, ,);
---     t_gnumber INTEGER,
---     t_course_num INTEGER,
---     preference INTEGER,
--- INSERT INTO Professors VALUES(11111111, 'adamsr@gvsu.edu', 1, 'Robert Adams');
--- INSERT INTO Professors VALUES(2222222,'alsabbaj@gvsu.edu', 1, 'Jamal Alsabbagh');
--- INSERT INTO Professors VALUES(3333333, 'bhusevji@gvsu.edu', 2, 'Vijay Bhuse');
--- INSERT INTO Professors VALUES(4444444, 'bobeldyd@gvsu.edu', 3, 'Denton Bobeldyk');
--- INSERT INTO Professors VALUES(11223344, 'bowmnath@gvsu.edu', 3, 'Nathaniel Bowman');
--- INSERT INTO Professors VALUES(55567892, 'carrieer@gvsu.edu', 3, 'Erin Carrier');
--- INSERT INTO Professors VALUES(20304050, 'dowlinmi@gvsu.edu', 3, 'Michelle Dowling');
--- INSERT INTO Professors VALUES(56565656, 'dulimarh@gvsu.edu', 2, 'Hans Dulimarta');
--- INSERT INTO Professors VALUES(17895345, 'elsaidm@gvsu.edu', 1, 'Mostafa El-Said');
--- INSERT INTO Professors VALUES(09090943, 'kurmasz@gvsu.edu', 2, 'Zachary Kurmas');
+INSERT INTO Teaches VALUES(11111111, 290, 1);
+INSERT INTO Teaches VALUES(11111111, 458, 3);
+INSERT INTO Teaches VALUES(2222222, 290, 1);
+INSERT INTO Teaches VALUES(3333333, 331, 1);
+INSERT INTO Teaches VALUES(4444444, 350, 2);
+INSERT INTO Teaches VALUES(11223344, 353, 3);
+INSERT INTO Teaches VALUES(11223344, 290, 3);
+INSERT INTO Teaches VALUES(55567892, 290, 1);
+INSERT INTO Teaches VALUES(20304050, 353, 2);
+INSERT INTO Teaches VALUES(56565656, 350, 1);
+INSERT INTO Teaches VALUES(56565656, 358, 1);
+INSERT INTO Teaches VALUES(56565656, 331, 1);
+INSERT INTO Teaches VALUES(17895345, 358, 2);
+INSERT INTO Teaches VALUES(09090943, 353, 1);
 
 ---- End of Populating Database ----
 
