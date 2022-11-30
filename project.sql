@@ -137,7 +137,7 @@ INSERT INTO Professors VALUES(09090943, 'kurmasz@gvsu.edu', 1, 'Zachary Kurmas')
 
 INSERT INTO Students VALUES(23232323, 'Kyle Taylor', 113);
 INSERT INTO Students VALUES(56543245, 'Skyler Ruiter', ???);
-INSERT INTO Students VALUES(09384543, 'Jazzmin Finney', ???);
+INSERT INTO Students VALUES(09384543, 'Jazzmin Finney', 101);
 INSERT INTO Students VALUES(12131415, 'Andrew Goodling', ???);
 INSERT INTO Students VALUES(34474039, 'Justin Johnson', ???);
 INSERT INTO Students VALUES(34474039, 'Janice Harold', 109);
