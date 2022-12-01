@@ -1,0 +1,865 @@
+SQL> SET ECHO ON
+SQL> 
+SQL> /*
+SQL> CIS 353 - Database Design Project
+SQL> Finney, Jazzmin
+SQL> Goodling, Andrew
+SQL> Johnson, Justin
+SQL> Ruiter, Skyler
+SQL> Taylor, Kyle
+SQL> */
+SQL> 
+SQL> ---- Drop Tables if they already exist ----
+SQL> 
+SQL> DROP TABLE Makes_Up;
+
+Table dropped.
+
+SQL> DROP TABLE Part_Of;
+
+Table dropped.
+
+SQL> DROP TABLE Takes;
+
+Table dropped.
+
+SQL> DROP TABLE Teaches;
+
+Table dropped.
+
+SQL> DROP TABLE Languages;
+
+Table dropped.
+
+SQL> DROP TABLE Sections;
+
+Table dropped.
+
+SQL> DROP TABLE Professors;
+
+Table dropped.
+
+SQL> DROP TABLE Courses;
+
+Table dropped.
+
+SQL> DROP TABLE Students;
+
+Table dropped.
+
+SQL> DROP TABLE Curriculum;
+
+Table dropped.
+
+SQL> 
+SQL> 
+SQL> ---- Database Schema (Create Tables) ----
+SQL> 
+SQL> 
+SQL> CREATE TABLE Professors (
+  2  	 p_gnumber INTEGER PRIMARY KEY,
+  3  	 p_email CHAR(25)  NOT NULL,
+  4  	 p_position INTEGER NOT NULL,
+  5  	 p_name CHAR(25) NOT NULL
+  6  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Courses (
+  2  	 course_id INTEGER PRIMARY KEY,
+  3  	 course_name CHAR(75) NOT NULL,
+  4  	 num_credits INTEGER NOT NULL,
+  5  	 -- One Attribute Constraint --
+  6  	 CONSTRAINT one_att CHECK (num_credits >= 1 AND num_credits <= 5)
+  7  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Curriculum (
+  2  	 currID INTEGER PRIMARY KEY,
+  3  	 curr_name CHAR(25) NOT NULL,
+  4  	 credit_hours INTEGER NOT NULL
+  5  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Students (
+  2  	 s_gnumber INTEGER PRIMARY KEY,
+  3  	 s_name CHAR(25) NOT NULL,
+  4  	 s_credits INTEGER NOT NULL,
+  5  	 s_standing INTEGER NOT NULL,
+  6  	 s_curriculum INTEGER NOT NULL,
+  7  	 -- Foreign Key Constraint --
+  8  	 CONSTRAINT f0 FOREIGN KEY (s_curriculum) REFERENCES Curriculum(currID),
+  9  	 -- Two Attribute One Row Constraint --
+ 10  	 CONSTRAINT two_one CHECK ((s_standing = 3 AND (s_credits >= 60 AND s_credits <= 84)) OR s_standing != 3)
+ 11  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Sections (
+  2  	 course_num INTEGER,
+  3  	 section_num INTEGER,
+  4  	 section_prof INTEGER,
+  5  	 room CHAR(10),
+  6  	 sec_time char(25),
+  7  	 -- Primary Key Constraint --
+  8  	 CONSTRAINT p_key PRIMARY KEY(course_num, section_num),
+  9  	 CONSTRAINT prof FOREIGN KEY (section_prof) REFERENCES Professors(p_gnumber),
+ 10  	 CONSTRAINT f1 FOREIGN KEY (course_num) REFERENCES Courses(course_id)
+ 11  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Languages (
+  2  	 lang CHAR(15),
+  3  	 l_gnumber INTEGER,
+  4  	 PRIMARY KEY(lang, l_gnumber),
+  5  	 CONSTRAINT f2 FOREIGN KEY (l_gnumber) REFERENCES Students(s_gnumber)
+  6  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Teaches (
+  2  	 t_gnumber INTEGER,
+  3  	 t_course_num INTEGER,
+  4  	 preference INTEGER,
+  5  	 PRIMARY KEY(t_gnumber, t_course_num),
+  6  	 CONSTRAINT f3 FOREIGN KEY (t_gnumber) REFERENCES Professors(p_gnumber),
+  7  	 CONSTRAINT f4 FOREIGN KEY (t_course_num) REFERENCES Courses(course_id)
+  8  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Takes (
+  2  	 gnum INTEGER,
+  3  	 sec_num INTEGER,
+  4  	 crs_num INTEGER,
+  5  	 grade CHAR(25),
+  6  	 PRIMARY KEY(gnum, sec_num, crs_num),
+  7  	 CONSTRAINT f5 FOREIGN KEY (gnum) REFERENCES Students(s_gnumber),
+  8  	 CONSTRAINT f6 FOREIGN KEY (sec_num, crs_num) REFERENCES Sections(section_num, course_num)
+  9  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Part_Of (
+  2  	 curr_id INTEGER,
+  3  	 gnumber INTEGER,
+  4  	 PRIMARY KEY(curr_id, gnumber),
+  5  	 CONSTRAINT f7 FOREIGN KEY (curr_id) REFERENCES Curriculum(currID),
+  6  	 CONSTRAINT f8 FOREIGN KEY (gnumber) REFERENCES Students(s_gnumber)
+  7  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Makes_Up (
+  2  	 curr_num INTEGER,
+  3  	 course_number INTEGER,
+  4  	 req INTEGER,
+  5  	 PRIMARY KEY(curr_num, course_number),
+  6  	 CONSTRAINT f9 FOREIGN KEY (curr_num) REFERENCES Curriculum(currID),
+  7  	 CONSTRAINT f10 FOREIGN KEY (course_number) REFERENCES Courses(course_id)
+  8  );
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> SET FEEDBACK OFF;
+SQL> 
+SQL> ---- Populate Databse ----
+SQL> 
+SQL> -- Populate Professors
+SQL> INSERT INTO Professors VALUES(11111111, 'adamsr@gvsu.edu', 1, 'Robert Adams');
+SQL> INSERT INTO Professors VALUES(22222222,'alsabbaj@gvsu.edu', 1, 'Jamal Alsabbagh');
+SQL> INSERT INTO Professors VALUES(33333333, 'bhusevji@gvsu.edu', 2, 'Vijay Bhuse');
+SQL> INSERT INTO Professors VALUES(44444444, 'bobeldyd@gvsu.edu', 3, 'Denton Bobeldyk');
+SQL> INSERT INTO Professors VALUES(11223344, 'bowmnath@gvsu.edu', 3, 'Nathaniel Bowman');
+SQL> INSERT INTO Professors VALUES(55567892, 'carrieer@gvsu.edu', 3, 'Erin Carrier');
+SQL> INSERT INTO Professors VALUES(20304050, 'dowlinmi@gvsu.edu', 3, 'Michelle Dowling');
+SQL> INSERT INTO Professors VALUES(56565656, 'dulimarh@gvsu.edu', 2, 'Hans Dulimarta');
+SQL> INSERT INTO Professors VALUES(17895345, 'elsaidm@gvsu.edu', 1, 'Mostafa El-Said');
+SQL> INSERT INTO Professors VALUES(09090943, 'kurmasz@gvsu.edu', 2, 'Zachary Kurmas');
+SQL> 
+SQL> -- Populate Courses
+SQL> INSERT INTO Courses VALUES(290, 'Professional Responsibilities and Practices', 3);
+SQL> INSERT INTO Courses VALUES(331, 'Data Analysis Tools and Techniques', 2);
+SQL> INSERT INTO Courses VALUES(350, 'Introduction to Software Engineering', 4);
+SQL> INSERT INTO Courses VALUES(353, 'Database', 3);
+SQL> INSERT INTO Courses VALUES(358, 'Information Assurance', 4);
+SQL> INSERT INTO Courses VALUES(458, 'System Security', 3);
+SQL> INSERT INTO Courses VALUES(241, 'System Level Programming', 5);
+SQL> INSERT INTO Courses VALUES(357, 'Mobile App', 5);
+SQL> 
+SQL> -- Curriculum
+SQL> INSERT INTO Curriculum VALUES(10, 'Computer Science', 120);
+SQL> INSERT INTO Curriculum VALUES(20, 'Information Systems', 120);
+SQL> INSERT INTO Curriculum VALUES(30, 'Information Technology', 120);
+SQL> INSERT INTO Curriculum VALUES(40, 'Cybersecurity', 120);
+SQL> 
+SQL> -- Populate Students
+SQL> INSERT INTO Students VALUES(23232323, 'Kyle Taylor', 113, 4, 10);
+SQL> INSERT INTO Students VALUES(56543245, 'Skyler Ruiter', 80, 3, 20);
+SQL> INSERT INTO Students VALUES(09384543, 'Jazzmin Finney', 81, 3, 10);
+SQL> INSERT INTO Students VALUES(12131415, 'Andrew Goodling', 69, 3, 30);
+SQL> INSERT INTO Students VALUES(34474039, 'Justin Johnson', 70, 3, 20);
+SQL> INSERT INTO Students VALUES(13467899, 'Janice Harold', 109, 2, 40);
+SQL> INSERT INTO Students VALUES(87432445, 'Hunter Bolt', 100, 2, 10);
+SQL> INSERT INTO Students VALUES(20983432, 'Paula Shargaloo', 123, 2, 10);
+SQL> INSERT INTO Students VALUES(14764545, 'Tom Gargle', 84, 3, 40);
+SQL> INSERT INTO Students VALUES(42948345, 'Joe Frank', 140, 4, 10);
+SQL> 
+SQL> -- Populate Sections
+SQL> INSERT INTO Sections VALUES(290, 3, 33333333, 'MAK A1115', '1:30 PM');
+SQL> INSERT INTO Sections VALUES(331, 2, 11111111, 'MAK D2110', '3:00 PM');
+SQL> INSERT INTO Sections VALUES(350, 2, 56565656, 'MAK A2115', '8:00 AM');
+SQL> INSERT INTO Sections VALUES(353, 1, 22222222, 'MAK A1126', '10:00 AM');
+SQL> INSERT INTO Sections VALUES(353, 2, 22222222, 'MAK A1118', '2:00 PM');
+SQL> INSERT INTO Sections VALUES(358, 1, 33333333, 'Online', 'Async');
+SQL> INSERT INTO Sections VALUES(458, 1, 55567892, 'MAK A118', '4:00 PM');
+SQL> INSERT INTO Sections VALUES(290, 1, 55567892, NULL, NULL);
+SQL> INSERT INTO Sections VALUES(353, 3, 22222222, NULL, NULL);
+SQL> INSERT INTO Sections VALUES(458, 2, 09090943, NULL, NULL);
+SQL> 
+SQL> -- Populate Languages
+SQL> ----Kyle
+SQL> INSERT INTO Languages VALUES('Scheme', 23232323);
+SQL> INSERT INTO Languages VALUES('C', 23232323);
+SQL> INSERT INTO Languages VALUES('Java', 23232323);
+SQL> INSERT INTO Languages VALUES('JavaScript', 23232323);
+SQL> INSERT INTO Languages VALUES('Python', 23232323);
+SQL> INSERT INTO Languages VALUES('Ruby', 23232323);
+SQL> INSERT INTO Languages VALUES('C#', 23232323);
+SQL> ----Skyler
+SQL> INSERT INTO Languages VALUES('C', 56543245);
+SQL> INSERT INTO Languages VALUES('C++', 56543245);
+SQL> INSERT INTO Languages VALUES('C#', 56543245);
+SQL> ----Jazz
+SQL> INSERT INTO Languages VALUES('C', 09384543);
+SQL> INSERT INTO Languages VALUES('Java', 09384543);
+SQL> INSERT INTO Languages VALUES('Rust', 09384543);
+SQL> ----Andrew
+SQL> INSERT INTO Languages VALUES('C', 12131415);
+SQL> INSERT INTO Languages VALUES('Java', 12131415);
+SQL> INSERT INTO Languages VALUES('Ruby', 12131415);
+SQL> ----Justin
+SQL> INSERT INTO Languages VALUES('C', 34474039);
+SQL> INSERT INTO Languages VALUES('Rust', 34474039);
+SQL> INSERT INTO Languages VALUES('Ruby', 34474039);
+SQL> INSERT INTO Languages VALUES('C++', 34474039);
+SQL> INSERT INTO Languages VALUES('Java', 34474039);
+SQL> ---Other
+SQL> INSERT INTO Languages VALUES('Java', 13467899);
+SQL> INSERT INTO Languages VALUES('Rust', 87432445);
+SQL> INSERT INTO Languages VALUES('Python', 87432445);
+SQL> INSERT INTO Languages VALUES('C', 20983432);
+SQL> INSERT INTO Languages VALUES('C++', 20983432);
+SQL> INSERT INTO Languages VALUES('C#', 20983432);
+SQL> INSERT INTO Languages VALUES('Java', 20983432);
+SQL> INSERT INTO Languages VALUES('JavaScript', 20983432);
+SQL> INSERT INTO Languages VALUES('Python', 20983432);
+SQL> 
+SQL> -- Populate Teaches
+SQL> INSERT INTO Teaches VALUES(11111111, 290, 1);
+SQL> INSERT INTO Teaches VALUES(11111111, 458, 3);
+SQL> INSERT INTO Teaches VALUES(22222222, 290, 1);
+SQL> INSERT INTO Teaches VALUES(33333333, 331, 1);
+SQL> INSERT INTO Teaches VALUES(44444444, 350, 2);
+SQL> INSERT INTO Teaches VALUES(11223344, 353, 3);
+SQL> INSERT INTO Teaches VALUES(11223344, 290, 3);
+SQL> INSERT INTO Teaches VALUES(55567892, 290, 1);
+SQL> INSERT INTO Teaches VALUES(20304050, 353, 2);
+SQL> INSERT INTO Teaches VALUES(56565656, 350, 1);
+SQL> INSERT INTO Teaches VALUES(56565656, 358, 1);
+SQL> INSERT INTO Teaches VALUES(56565656, 331, 1);
+SQL> INSERT INTO Teaches VALUES(17895345, 358, 2);
+SQL> INSERT INTO Teaches VALUES(09090943, 353, 1);
+SQL> 
+SQL> -- Populate Takes
+SQL> INSERT INTO Takes VALUES(23232323, 3, 290, 'A');
+SQL> INSERT INTO Takes VALUES(87432445, 1, 458, 'B+');
+SQL> INSERT INTO Takes VALUES(56543245, 2, 331, 'A');
+SQL> INSERT INTO Takes VALUES(13467899, 1, 358, 'C');
+SQL> INSERT INTO Takes VALUES(09384543, 2, 350, 'A');
+SQL> INSERT INTO Takes VALUES(20983432, 1, 353, 'B');
+SQL> INSERT INTO Takes VALUES(12131415, 1, 353, 'A');
+SQL> INSERT INTO Takes VALUES(14764545, 3, 290, 'F');
+SQL> INSERT INTO Takes VALUES(34474039, 2, 353, 'A-');
+SQL> INSERT INTO Takes VALUES(13467899, 1, 353, 'A');
+SQL> INSERT INTO Takes VALUES(13467899, 2, 353, 'B');
+SQL> INSERT INTO Takes VALUES(13467899, 3, 353, 'C');
+SQL> 
+SQL> -- Populate Part_Of -- (currID, s_gnumber)
+SQL> INSERT INTO Part_Of VALUES(10, 23232323);
+SQL> INSERT INTO Part_Of VALUES(30, 56543245);
+SQL> INSERT INTO Part_Of VALUES(20, 09384543);
+SQL> INSERT INTO Part_Of VALUES(40, 12131415);
+SQL> INSERT INTO Part_Of VALUES(10, 34474039);
+SQL> INSERT INTO Part_Of VALUES(30, 13467899);
+SQL> INSERT INTO Part_Of VALUES(40, 87432445);
+SQL> INSERT INTO Part_Of VALUES(20, 20983432);
+SQL> INSERT INTO Part_Of VALUES(10, 14764545);
+SQL> 
+SQL> -- Populate Makes_Up
+SQL> INSERT INTO Makes_Up VALUES(10, 290, 1);
+SQL> INSERT INTO Makes_Up VALUES(10, 331, 0);
+SQL> INSERT INTO Makes_Up VALUES(10, 458, 1);
+SQL> INSERT INTO Makes_Up VALUES(20, 458, 1);
+SQL> INSERT INTO Makes_Up VALUES(20, 331, 1);
+SQL> INSERT INTO Makes_Up VALUES(20, 350, 0);
+SQL> INSERT INTO Makes_Up VALUES(20, 353, 1);
+SQL> INSERT INTO Makes_Up VALUES(30, 350, 0);
+SQL> INSERT INTO Makes_Up VALUES(40, 353, 1);
+SQL> INSERT INTO Makes_Up VALUES(40, 358, 1);
+SQL> 
+SQL> 
+SQL> ---- End of Populating Database ----
+SQL> 
+SQL> SET FEEDBACK ON
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> ---- Select Statements to View Tables ----
+SQL> SELECT * FROM Professors;
+
+ P_GNUMBER P_EMAIL                   P_POSITION P_NAME                          
+---------- ------------------------- ---------- -------------------------       
+  11111111 adamsr@gvsu.edu                    1 Robert Adams                    
+  22222222 alsabbaj@gvsu.edu                  1 Jamal Alsabbagh                 
+  33333333 bhusevji@gvsu.edu                  2 Vijay Bhuse                     
+  44444444 bobeldyd@gvsu.edu                  3 Denton Bobeldyk                 
+  11223344 bowmnath@gvsu.edu                  3 Nathaniel Bowman                
+  55567892 carrieer@gvsu.edu                  3 Erin Carrier                    
+  20304050 dowlinmi@gvsu.edu                  3 Michelle Dowling                
+  56565656 dulimarh@gvsu.edu                  2 Hans Dulimarta                  
+  17895345 elsaidm@gvsu.edu                   1 Mostafa El-Said                 
+   9090943 kurmasz@gvsu.edu                   2 Zachary Kurmas                  
+
+10 rows selected.
+
+SQL> SELECT * FROM Courses;
+
+ COURSE_ID                                                                      
+----------                                                                      
+COURSE_NAME                                                                     
+---------------------------------------------------------------------------     
+NUM_CREDITS                                                                     
+-----------                                                                     
+       290                                                                      
+Professional Responsibilities and Practices                                     
+          3                                                                     
+                                                                                
+       331                                                                      
+Data Analysis Tools and Techniques                                              
+          2                                                                     
+
+ COURSE_ID                                                                      
+----------                                                                      
+COURSE_NAME                                                                     
+---------------------------------------------------------------------------     
+NUM_CREDITS                                                                     
+-----------                                                                     
+                                                                                
+       350                                                                      
+Introduction to Software Engineering                                            
+          4                                                                     
+                                                                                
+       353                                                                      
+Database                                                                        
+
+ COURSE_ID                                                                      
+----------                                                                      
+COURSE_NAME                                                                     
+---------------------------------------------------------------------------     
+NUM_CREDITS                                                                     
+-----------                                                                     
+          3                                                                     
+                                                                                
+       358                                                                      
+Information Assurance                                                           
+          4                                                                     
+                                                                                
+       458                                                                      
+
+ COURSE_ID                                                                      
+----------                                                                      
+COURSE_NAME                                                                     
+---------------------------------------------------------------------------     
+NUM_CREDITS                                                                     
+-----------                                                                     
+System Security                                                                 
+          3                                                                     
+                                                                                
+       241                                                                      
+System Level Programming                                                        
+          5                                                                     
+                                                                                
+
+ COURSE_ID                                                                      
+----------                                                                      
+COURSE_NAME                                                                     
+---------------------------------------------------------------------------     
+NUM_CREDITS                                                                     
+-----------                                                                     
+       357                                                                      
+Mobile App                                                                      
+          5                                                                     
+                                                                                
+
+8 rows selected.
+
+SQL> SELECT * FROM Students;
+
+ S_GNUMBER S_NAME                     S_CREDITS S_STANDING S_CURRICULUM         
+---------- ------------------------- ---------- ---------- ------------         
+  23232323 Kyle Taylor                      113          4           10         
+  56543245 Skyler Ruiter                     80          3           20         
+   9384543 Jazzmin Finney                    81          3           10         
+  12131415 Andrew Goodling                   69          3           30         
+  34474039 Justin Johnson                    70          3           20         
+  13467899 Janice Harold                    109          2           40         
+  87432445 Hunter Bolt                      100          2           10         
+  20983432 Paula Shargaloo                  123          2           10         
+  14764545 Tom Gargle                        84          3           40         
+  42948345 Joe Frank                        140          4           10         
+
+10 rows selected.
+
+SQL> SELECT * FROM Sections;
+
+COURSE_NUM SECTION_NUM SECTION_PROF ROOM       SEC_TIME                         
+---------- ----------- ------------ ---------- -------------------------        
+       290           3     33333333 MAK A1115  1:30 PM                          
+       331           2     11111111 MAK D2110  3:00 PM                          
+       350           2     56565656 MAK A2115  8:00 AM                          
+       353           1     22222222 MAK A1126  10:00 AM                         
+       353           2     22222222 MAK A1118  2:00 PM                          
+       358           1     33333333 Online     Async                            
+       458           1     55567892 MAK A118   4:00 PM                          
+       290           1     55567892                                             
+       353           3     22222222                                             
+       458           2      9090943                                             
+
+10 rows selected.
+
+SQL> SELECT * FROM Curriculum;
+
+    CURRID CURR_NAME                 CREDIT_HOURS                               
+---------- ------------------------- ------------                               
+        10 Computer Science                   120                               
+        20 Information Systems                120                               
+        30 Information Technology             120                               
+        40 Cybersecurity                      120                               
+
+4 rows selected.
+
+SQL> SELECT * FROM Languages;
+
+LANG             L_GNUMBER                                                      
+--------------- ----------                                                      
+C                  9384543                                                      
+C                 12131415                                                      
+C                 20983432                                                      
+C                 23232323                                                      
+C                 34474039                                                      
+C                 56543245                                                      
+C#                20983432                                                      
+C#                23232323                                                      
+C#                56543245                                                      
+C++               20983432                                                      
+C++               34474039                                                      
+
+LANG             L_GNUMBER                                                      
+--------------- ----------                                                      
+C++               56543245                                                      
+Java               9384543                                                      
+Java              12131415                                                      
+Java              13467899                                                      
+Java              20983432                                                      
+Java              23232323                                                      
+Java              34474039                                                      
+JavaScript        20983432                                                      
+JavaScript        23232323                                                      
+Python            20983432                                                      
+Python            23232323                                                      
+
+LANG             L_GNUMBER                                                      
+--------------- ----------                                                      
+Python            87432445                                                      
+Ruby              12131415                                                      
+Ruby              23232323                                                      
+Ruby              34474039                                                      
+Rust               9384543                                                      
+Rust              34474039                                                      
+Rust              87432445                                                      
+Scheme            23232323                                                      
+
+30 rows selected.
+
+SQL> SELECT * FROM Teaches;
+
+ T_GNUMBER T_COURSE_NUM PREFERENCE                                              
+---------- ------------ ----------                                              
+  11111111          290          1                                              
+  11111111          458          3                                              
+  22222222          290          1                                              
+  33333333          331          1                                              
+  44444444          350          2                                              
+  11223344          353          3                                              
+  11223344          290          3                                              
+  55567892          290          1                                              
+  20304050          353          2                                              
+  56565656          350          1                                              
+  56565656          358          1                                              
+
+ T_GNUMBER T_COURSE_NUM PREFERENCE                                              
+---------- ------------ ----------                                              
+  56565656          331          1                                              
+  17895345          358          2                                              
+   9090943          353          1                                              
+
+14 rows selected.
+
+SQL> SELECT * FROM Takes;
+
+      GNUM    SEC_NUM    CRS_NUM GRADE                                          
+---------- ---------- ---------- -------------------------                      
+  23232323          3        290 A                                              
+  87432445          1        458 B+                                             
+  56543245          2        331 A                                              
+  13467899          1        358 C                                              
+   9384543          2        350 A                                              
+  20983432          1        353 B                                              
+  12131415          1        353 A                                              
+  14764545          3        290 F                                              
+  34474039          2        353 A-                                             
+  13467899          1        353 A                                              
+  13467899          2        353 B                                              
+
+      GNUM    SEC_NUM    CRS_NUM GRADE                                          
+---------- ---------- ---------- -------------------------                      
+  13467899          3        353 C                                              
+
+12 rows selected.
+
+SQL> SELECT * FROM Part_Of;
+
+   CURR_ID    GNUMBER                                                           
+---------- ----------                                                           
+        10   14764545                                                           
+        10   23232323                                                           
+        10   34474039                                                           
+        20    9384543                                                           
+        20   20983432                                                           
+        30   13467899                                                           
+        30   56543245                                                           
+        40   12131415                                                           
+        40   87432445                                                           
+
+9 rows selected.
+
+SQL> SELECT * FROM Makes_Up;
+
+  CURR_NUM COURSE_NUMBER        REQ                                             
+---------- ------------- ----------                                             
+        10           290          1                                             
+        10           331          0                                             
+        10           458          1                                             
+        20           458          1                                             
+        20           331          1                                             
+        20           350          0                                             
+        20           353          1                                             
+        30           350          0                                             
+        40           353          1                                             
+        40           358          1                                             
+
+10 rows selected.
+
+SQL> 
+SQL> ---- SQL Queries ----
+SQL> 
+SQL> -- Query 1: A join involving at least 4 relations
+SQL> ---- Find students who are in room MAK A1126 or are in coursenum 290
+SQL> SELECT DISTINCT S.s_name, S.s_gnumber, SE.room, CO.course_id
+  2  	     FROM Students S, Takes T, Sections SE, Courses CO
+  3  	     WHERE S.s_gnumber = T.gnum AND
+  4  	 T.sec_num = SE.section_num AND
+  5  	 SE.course_num = CO.course_ID AND
+  6  	 (SE.room = 'MAK A1126' OR CO.course_id = 290);
+
+S_NAME                     S_GNUMBER ROOM        COURSE_ID                      
+------------------------- ---------- ---------- ----------                      
+Kyle Taylor                 23232323 MAK A1115         290                      
+Andrew Goodling             12131415                   290                      
+Hunter Bolt                 87432445                   290                      
+Janice Harold               13467899                   290                      
+Paula Shargaloo             20983432 MAK A1126         353                      
+Paula Shargaloo             20983432                   290                      
+Tom Gargle                  14764545 MAK A1115         290                      
+Janice Harold               13467899 MAK A1126         353                      
+Hunter Bolt                 87432445 MAK A1126         353                      
+Andrew Goodling             12131415 MAK A1126         353                      
+Janice Harold               13467899 MAK A1115         290                      
+
+11 rows selected.
+
+SQL> 
+SQL> 
+SQL> -- Query 2: A self-join
+SQL> ---- Find pairs of students in the same year that are juniors or above
+SQL> SELECT S1.s_gnumber, S1.s_name, S2.s_gnumber, S2.s_name
+  2  FROM Students S1, Students S2
+  3  WHERE S1.s_standing > 2
+  4  	   AND S1.s_standing = S2.s_standing
+  5  	   AND S1.s_gnumber < S2.s_gnumber;
+
+ S_GNUMBER S_NAME                     S_GNUMBER S_NAME                          
+---------- ------------------------- ---------- -------------------------       
+   9384543 Jazzmin Finney              56543245 Skyler Ruiter                   
+  12131415 Andrew Goodling             56543245 Skyler Ruiter                   
+  34474039 Justin Johnson              56543245 Skyler Ruiter                   
+  14764545 Tom Gargle                  56543245 Skyler Ruiter                   
+   9384543 Jazzmin Finney              12131415 Andrew Goodling                 
+   9384543 Jazzmin Finney              34474039 Justin Johnson                  
+  12131415 Andrew Goodling             34474039 Justin Johnson                  
+  14764545 Tom Gargle                  34474039 Justin Johnson                  
+   9384543 Jazzmin Finney              14764545 Tom Gargle                      
+  12131415 Andrew Goodling             14764545 Tom Gargle                      
+  23232323 Kyle Taylor                 42948345 Joe Frank                       
+
+11 rows selected.
+
+SQL> 
+SQL> 
+SQL> -- Query 3: Union, Intersect, and/or Minus
+SQL> ---- Find the gnumber and name of students named Andrew or are seniors
+SQL> SELECT s_gnumber, s_name
+  2  FROM Students
+  3  WHERE s_name LIKE 'Andrew%'
+  4  UNION
+  5  SELECT s_gnumber, s_name
+  6  FROM Students
+  7  WHERE s_standing = 4;
+
+ S_GNUMBER S_NAME                                                               
+---------- -------------------------                                            
+  12131415 Andrew Goodling                                                      
+  23232323 Kyle Taylor                                                          
+  42948345 Joe Frank                                                            
+
+3 rows selected.
+
+SQL> 
+SQL> 
+SQL> -- Query 4: Sum, Avg, Max, and/or Min
+SQL> ---- Find the maximum number of credits of all students
+SQL> SELECT MAX(s_credits) AS MaxCredits
+  2  FROM Students;
+
+MAXCREDITS                                                                      
+----------                                                                      
+       140                                                                      
+
+1 row selected.
+
+SQL> 
+SQL> 
+SQL> -- Query 5: Group By, Having, and Order By Query
+SQL> ---- Find all curriculums that have at least 2 students
+SQL> SELECT S.s_curriculum, C.curr_name, COUNT(*)
+  2  FROM Curriculum C, Students S
+  3  WHERE S.s_curriculum = C.currID
+  4  GROUP BY S.s_curriculum, C.curr_name
+  5  HAVING COUNT(*) > 1
+  6  ORDER BY S.s_curriculum;
+
+S_CURRICULUM CURR_NAME                   COUNT(*)                               
+------------ ------------------------- ----------                               
+          10 Computer Science                   5                               
+          20 Information Systems                2                               
+          40 Cybersecurity                      2                               
+
+3 rows selected.
+
+SQL> 
+SQL> 
+SQL> -- Query 6: A Correlated Subquery
+SQL> ---- Find all courses that have a section without a room assigned
+SQL> SELECT C.course_name
+  2  FROM Courses C
+  3  WHERE C.course_id IN (SELECT S.course_num
+  4  		     FROM Sections S
+  5  		     WHERE S.course_num = C.course_id
+  6  		     AND S.room IS NULL);
+
+COURSE_NAME                                                                     
+---------------------------------------------------------------------------     
+Professional Responsibilities and Practices                                     
+Database                                                                        
+System Security                                                                 
+
+3 rows selected.
+
+SQL> 
+SQL> 
+SQL> -- Query 7: A Non-Correlated Subquery
+SQL> ---- Find all students with at least 120 credits in the Computer Science curriculum
+SQL> SELECT S.s_gnumber, S.s_name, S.s_credits
+  2  FROM Students S
+  3  WHERE S.s_credits > 120
+  4  	   AND S.s_curriculum IN (SELECT Cu.currID
+  5  				 FROM Curriculum Cu
+  6  				 WHERE Cu.currID = 10);
+
+ S_GNUMBER S_NAME                     S_CREDITS                                 
+---------- ------------------------- ----------                                 
+  20983432 Paula Shargaloo                  123                                 
+  42948345 Joe Frank                        140                                 
+
+2 rows selected.
+
+SQL> 
+SQL> -- Query 8: A Relational Division Query
+SQL> ---- Find all students who have taken all sections taught by Alsabbagh
+SQL> SELECT S.s_gnumber, S.s_name
+  2  FROM Students S
+  3  WHERE NOT EXISTS ((SELECT SE.section_num
+  4  			FROM Sections SE
+  5  			WHERE SE.section_prof = 22222222)
+  6  			MINUS
+  7  			(SELECT SE.section_num
+  8  			FROM Sections SE, Takes T
+  9  			WHERE S.s_gnumber = T.gnum
+ 10  			AND SE.section_num = T.sec_num
+ 11  			AND SE.section_prof = 22222222));
+
+ S_GNUMBER S_NAME                                                               
+---------- -------------------------                                            
+  13467899 Janice Harold                                                        
+
+1 row selected.
+
+SQL> 
+SQL> 
+SQL> -- Query 9: An Outer Join Query
+SQL> ---- Find the course name and id for every course. Also show the sections for each course
+SQL> SELECT C.course_name, C.course_id, S.section_num
+  2  FROM Courses C LEFT OUTER JOIN Sections S ON (C.course_id = S.course_num);
+
+COURSE_NAME                                                                     
+---------------------------------------------------------------------------     
+ COURSE_ID SECTION_NUM                                                          
+---------- -----------                                                          
+Professional Responsibilities and Practices                                     
+       290           1                                                          
+                                                                                
+Professional Responsibilities and Practices                                     
+       290           3                                                          
+                                                                                
+Data Analysis Tools and Techniques                                              
+       331           2                                                          
+                                                                                
+
+COURSE_NAME                                                                     
+---------------------------------------------------------------------------     
+ COURSE_ID SECTION_NUM                                                          
+---------- -----------                                                          
+Introduction to Software Engineering                                            
+       350           2                                                          
+                                                                                
+Database                                                                        
+       353           1                                                          
+                                                                                
+Database                                                                        
+       353           2                                                          
+                                                                                
+
+COURSE_NAME                                                                     
+---------------------------------------------------------------------------     
+ COURSE_ID SECTION_NUM                                                          
+---------- -----------                                                          
+Database                                                                        
+       353           3                                                          
+                                                                                
+Information Assurance                                                           
+       358           1                                                          
+                                                                                
+System Security                                                                 
+       458           1                                                          
+                                                                                
+
+COURSE_NAME                                                                     
+---------------------------------------------------------------------------     
+ COURSE_ID SECTION_NUM                                                          
+---------- -----------                                                          
+System Security                                                                 
+       458           2                                                          
+                                                                                
+Mobile App                                                                      
+       357                                                                      
+                                                                                
+System Level Programming                                                        
+       241                                                                      
+                                                                                
+
+12 rows selected.
+
+SQL> 
+SQL> 
+SQL> ---- Testing of Constraints ----
+SQL> 
+SQL> -- Testing <p_key>
+SQL> INSERT INTO Sections VALUES(378, NULL, 'MAK A1105', '8:30 AM');
+INSERT INTO Sections VALUES(378, NULL, 'MAK A1105', '8:30 AM')
+            *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> 
+SQL> -- Testing <f0>
+SQL> INSERT INTO Students VALUES(12144623, 'Natalie Kline', 90, 3, 80);
+INSERT INTO Students VALUES(12144623, 'Natalie Kline', 90, 3, 80)
+*
+ERROR at line 1:
+ORA-02290: check constraint (RUITERSK.TWO_ONE) violated 
+
+
+SQL> 
+SQL> -- Testing <one_att>
+SQL> INSERT INTO Courses VALUES(287, 'Internet Media and Programming', 6);
+INSERT INTO Courses VALUES(287, 'Internet Media and Programming', 6)
+*
+ERROR at line 1:
+ORA-02290: check constraint (RUITERSK.ONE_ATT) violated 
+
+
+SQL> 
+SQL> -- Testing <two_one>
+SQL> INSERT INTO Students VALUES(12144623, 'Natalie Kline', 400, 3, 10);
+INSERT INTO Students VALUES(12144623, 'Natalie Kline', 400, 3, 10)
+*
+ERROR at line 1:
+ORA-02290: check constraint (RUITERSK.TWO_ONE) violated 
+
+
+SQL> 
+SQL> ---- End of Testing Constraints ----
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SPOOL OFF
