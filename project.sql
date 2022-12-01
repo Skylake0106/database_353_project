@@ -54,7 +54,6 @@ CREATE TABLE Students (
     s_credits INTEGER NOT NULL,
     s_standing INTEGER NOT NULL,
     s_curriculum INTEGER NOT NULL,
-
     -- Foreign Key Constraint --
     CONSTRAINT f0 FOREIGN KEY (s_curriculum) REFERENCES Curriculum(currID),
     -- Two Attribute One Row Constraint --
@@ -67,7 +66,6 @@ CREATE TABLE Sections (
     section_prof INTEGER,
     room CHAR(10),
     sec_time char(25),
-
     -- Primary Key Constraint --
     CONSTRAINT p_key PRIMARY KEY(course_num, section_num),
     CONSTRAINT prof FOREIGN KEY (section_prof) REFERENCES Professors(p_gnumber),
@@ -77,7 +75,6 @@ CREATE TABLE Sections (
 CREATE TABLE Languages (
     lang CHAR(15),
     l_gnumber INTEGER,
-    
     PRIMARY KEY(lang, l_gnumber),
     CONSTRAINT f2 FOREIGN KEY (l_gnumber) REFERENCES Students(s_gnumber)
 );
@@ -86,7 +83,6 @@ CREATE TABLE Teaches (
     t_gnumber INTEGER,
     t_course_num INTEGER,
     preference INTEGER,
-    
     PRIMARY KEY(t_gnumber, t_course_num),
     CONSTRAINT f3 FOREIGN KEY (t_gnumber) REFERENCES Professors(p_gnumber),
     CONSTRAINT f4 FOREIGN KEY (t_course_num) REFERENCES Courses(course_id)
@@ -97,7 +93,6 @@ CREATE TABLE Takes (
     sec_num INTEGER,
     crs_num INTEGER,
     grade CHAR(25),
-
     PRIMARY KEY(gnum, sec_num, crs_num),
     CONSTRAINT f5 FOREIGN KEY (gnum) REFERENCES Students(s_gnumber),
     CONSTRAINT f6 FOREIGN KEY (sec_num, crs_num) REFERENCES Sections(section_num, course_num)
@@ -115,7 +110,6 @@ CREATE TABLE Makes_Up (
     curr_num INTEGER,
     course_number INTEGER,
     req INTEGER,
-
     PRIMARY KEY(curr_num, course_number),
     CONSTRAINT f9 FOREIGN KEY (curr_num) REFERENCES Curriculum(currID),
     CONSTRAINT f10 FOREIGN KEY (course_number) REFERENCES Courses(course_id)
