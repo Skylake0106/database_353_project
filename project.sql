@@ -37,8 +37,8 @@ CREATE TABLE Professors (
 CREATE TABLE Courses (
     course_id INTEGER PRIMARY KEY,
     course_name CHAR(75) NOT NULL,
-    num_credits INTEGER NOT NULL
-    CONSTRAINT CR CHECK (num_credits >= 1 AND num_credits <= 5)
+    num_credits INTEGER NOT NULL,
+    CONSTRAINT one_att CHECK (num_credits >= 1 AND num_credits <= 5)
 );
 
 CREATE TABLE Curriculum (
@@ -54,7 +54,10 @@ CREATE TABLE Students (
     s_standing INTEGER NOT NULL,
     s_curriculum INTEGER NOT NULL,
 
-    CONSTRAINT f0 FOREIGN KEY (s_curriculum) REFERENCES Curriculum(currID)
+    -- Foreign Key Constraint --
+    CONSTRAINT f0 FOREIGN KEY (s_curriculum) REFERENCES Curriculum(currID),
+    -- Two Attribute One Row Constraint --
+    CONSTRAINT two_one CHECK ((s_standing = 3 AND (s_credits >= 60 AND s_credits <= 84)) OR s_standing != 3)
 );
 
 CREATE TABLE Sections (
@@ -63,9 +66,9 @@ CREATE TABLE Sections (
     room CHAR(10),
     sec_time char(25),
 
+    -- Primary Key Constraint --
     CONSTRAINT p_key PRIMARY KEY(course_num, section_num),
     CONSTRAINT f1 FOREIGN KEY (course_num) REFERENCES Courses(course_id)
-    
 );
 
 CREATE TABLE Languages (
@@ -115,20 +118,6 @@ CREATE TABLE Makes_Up (
     CONSTRAINT f10 FOREIGN KEY (course_number) REFERENCES Courses(course_id)
 );
 
----- Constraints ----
-
--- Key Constraint:
-
-
--- 1-Attribute Check:
-
-
--- 2-Attribute 1-Row Check:
--- Do one of y'all want to check below por favor? ;)
--- "Restricting juniors to have between 60 and 84 credits inclusive."
--- CONSTRAINT s1 CHECK (s_standing = 3 AND (num_credits >= 60 AND num_credits <= 84))
-
-
 
 SET FEEDBACK OFF;
 
@@ -164,21 +153,21 @@ INSERT INTO Curriculum VALUES(40, 'Cybersecurity', 120);
 
 -- Populate Students
 INSERT INTO Students VALUES(23232323, 'Kyle Taylor', 113, 4, 10);
-INSERT INTO Students VALUES(56543245, 'Skyler Ruiter', 120, 3, 20);
-INSERT INTO Students VALUES(09384543, 'Jazzmin Finney', 101, 3, 10);
-INSERT INTO Students VALUES(12131415, 'Andrew Goodling', 120, 3, 30);
-INSERT INTO Students VALUES(34474039, 'Justin Johnson', 110, 3, 20);
+INSERT INTO Students VALUES(56543245, 'Skyler Ruiter', 80, 3, 20);
+INSERT INTO Students VALUES(09384543, 'Jazzmin Finney', 81, 3, 10);
+INSERT INTO Students VALUES(12131415, 'Andrew Goodling', 69, 3, 30);
+INSERT INTO Students VALUES(34474039, 'Justin Johnson', 70, 3, 20);
 INSERT INTO Students VALUES(13467899, 'Janice Harold', 109, 2, 40);
 INSERT INTO Students VALUES(87432445, 'Hunter Bolt', 100, 2, 10);
 INSERT INTO Students VALUES(20983432, 'Paula Shargaloo', 123, 2, 10);
-INSERT INTO Students VALUES(14764545, 'Tom Gargle', 121, 3, 40);
+INSERT INTO Students VALUES(14764545, 'Tom Gargle', 84, 3, 40);
 
 -- Populate Sections
-INSERT INTO Sections VALUES(290, 3, 'MAK A115', '1:30 PM');
-INSERT INTO Sections VALUES(331, 2, 'MAK D210', '3:00 PM');
-INSERT INTO Sections VALUES(350, 2, 'MAK A215', '8:00 AM');
-INSERT INTO Sections VALUES(353, 1, 'MAK A116', '10:00 AM');
-INSERT INTO Sections VALUES(353, 2, 'MAK A118', '2:00 PM');
+INSERT INTO Sections VALUES(290, 3, 'MAK A1115', '1:30 PM');
+INSERT INTO Sections VALUES(331, 2, 'MAK D2110', '3:00 PM');
+INSERT INTO Sections VALUES(350, 2, 'MAK A2115', '8:00 AM');
+INSERT INTO Sections VALUES(353, 1, 'MAK A1126', '10:00 AM');
+INSERT INTO Sections VALUES(353, 2, 'MAK A1118', '2:00 PM');
 INSERT INTO Sections VALUES(358, 1, 'Online', 'Async');
 INSERT INTO Sections VALUES(458, 1, 'MAK A118', '4:00 PM');
 INSERT INTO Sections VALUES(290, 1, NULL, NULL);
@@ -273,6 +262,7 @@ INSERT INTO Makes_Up VALUES(30, 350, 0);
 INSERT INTO Makes_Up VALUES(40, 353, 1);
 INSERT INTO Makes_Up VALUES(40, 358, 1);
 
+
 ---- End of Populating Database ----
 
 SET FEEDBACK ON
@@ -322,17 +312,26 @@ FROM Students;
 
 
 -- Query 5: Group By, Having, and Order By Query
+---- Find the gnumber, name, and standing (year) of every student that has more than 60 credits for each standing (year) that has more than two such students
+SELECT s_gnumber, s_name, s_standing
+FROM Students 
+WHERE s_credits > 60
+GROUP BY s_gnumber, s_name, s_standing
+HAVING COUNT(*) > 2
+ORDER BY s_gnumber;
 
 
 -- Query 6: A Correlated Subquery
+---- Find all courses that have a section without a room assigned
+
 
 
 -- Query 7: A Non-Correlated Subquery
----- Find students that are enrolled in 
-
+---- 
 
 
 -- Query 8: A Relational Division Query
+---- 
 
 
 -- Query 9: An Outer Join Query
@@ -343,16 +342,17 @@ FROM Courses C LEFT OUTER JOIN Sections S ON (C.course_id = S.course_num);
 
 ---- Testing of Constraints ----
 
--- Testing <primary key constraint>
+-- Testing <p_key>
+INSERT INTO Sections VALUES(378, NULL, 'MAK A1105', '8:30 AM');
 
+-- Testing <f0>
+INSERT INTO Students VALUES(12144623, 'Natalie Kline', 90, 3, 80);
 
--- Testing <key constraint name>
-
-
--- Testing <1-attribute check name>
+-- Testing <one_att>
 INSERT INTO Courses VALUES(287, 'George Has Fun', 6);
 
--- Testing <2-attribute 1 row>
+-- Testing <two_one>
+INSERT INTO Students VALUES(12144623, 'Natalie Kline', 400, 3, 10);
 
 ---- End of Testing Constraints ----
 
