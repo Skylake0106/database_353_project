@@ -330,6 +330,9 @@ FROM Students;
 
 
 -- Query 9: An Outer Join Query
+---- Find the course name and id for every course. Also show the sections for each course
+SELECT C.course_name, C.course_id, S.section_num
+FROM Courses C LEFT OUTER JOIN Sections S ON (C.course_id = S.course_num);
 
 
 ---- Testing of Constraints ----
