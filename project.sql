@@ -38,6 +38,7 @@ CREATE TABLE Courses (
     course_id INTEGER PRIMARY KEY,
     course_name CHAR(75) NOT NULL,
     num_credits INTEGER NOT NULL
+    CONSTRAINT CR CHECK (num_credits >= 1 AND num_credits <= 5)
 );
 
 CREATE TABLE Curriculum (
@@ -64,6 +65,7 @@ CREATE TABLE Sections (
 
     CONSTRAINT p_key PRIMARY KEY(course_num, section_num),
     CONSTRAINT f1 FOREIGN KEY (course_num) REFERENCES Courses(course_id)
+    
 );
 
 CREATE TABLE Languages (
@@ -151,7 +153,7 @@ INSERT INTO Courses VALUES(350, 'Introduction to Software Engineering', 4);
 INSERT INTO Courses VALUES(353, 'Database', 3);
 INSERT INTO Courses VALUES(358, 'Information Assurance', 4);
 INSERT INTO Courses VALUES(458, 'System Security', 3);
-INSERT INTO Courses VALUES(241, 'System Level Programming', 6);
+INSERT INTO Courses VALUES(241, 'System Level Programming', 5);
 INSERT INTO Courses VALUES(357, 'Mobile App', 5);
 
 -- Curriculum
@@ -348,7 +350,7 @@ FROM Courses C LEFT OUTER JOIN Sections S ON (C.course_id = S.course_num);
 
 
 -- Testing <1-attribute check name>
-
+INSERT INTO Courses VALUES(287, 'George Has Fun', 6);
 
 -- Testing <2-attribute 1 row>
 
