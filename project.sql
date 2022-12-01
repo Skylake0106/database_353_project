@@ -312,13 +312,13 @@ FROM Students;
 
 
 -- Query 5: Group By, Having, and Order By Query
----- Find the gnumber, name, and standing (year) of every student that has more than 60 credits for each standing (year) that has more than two such students
-SELECT s_gnumber, s_name, s_standing
-FROM Students 
-WHERE s_credits > 60
-GROUP BY s_gnumber, s_name, s_standing
-HAVING COUNT(*) > 2
-ORDER BY s_gnumber;
+---- Find all curriculums that have at least 2 students
+SELECT S.s_curriculum, C.curr_name, COUNT(*)
+FROM Curriculum C, Students S
+WHERE S.s_curriculum = C.currID
+GROUP BY S.s_curriculum, C.curr_name
+HAVING COUNT(*) > 1
+ORDER BY S.s_curriculum;
 
 
 -- Query 6: A Correlated Subquery
