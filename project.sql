@@ -332,7 +332,13 @@ WHERE C.course_id IN (SELECT S.course_num
 
 
 -- Query 7: A Non-Correlated Subquery
----- 
+---- Find all students with at least 120 credits in the Computer Science curriculum
+SELECT S.s_gnumber, S.s_name, S.s_credits
+FROM Students S
+WHERE S.s_credits > 120
+      AND S.s_curriculum IN (SELECT Cu.currID
+                            FROM Curriculum Cu
+                            WHERE Cu.currID = 10);
 
 
 -- Query 8: A Relational Division Query
