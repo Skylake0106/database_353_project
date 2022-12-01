@@ -20,8 +20,8 @@ DROP TABLE Languages;
 DROP TABLE Sections;
 DROP TABLE Professors;
 DROP TABLE Courses;
-DROP TABLE Students;
 DROP TABLE Curriculum;
+DROP TABLE Students;
 
 ---- Database Schema (Create Tables) ----
 
@@ -35,31 +35,34 @@ CREATE TABLE Professors (
 
 CREATE TABLE Courses (
     course_id INTEGER PRIMARY KEY,
-    course_name CHAR(50) NOT NULL,
+    course_name CHAR(75) NOT NULL,
     num_credits INTEGER NOT NULL
-);
-
-CREATE TABLE Students (
-    s_gnumber INTEGER PRIMARY KEY,
-    s_name CHAR(25) NOT NULL,
-    s_credits INTEGER NOT NULL,
-    s_standing INTEGER NOT NULL
-);
-
-CREATE TABLE Sections (
-    course_num INTEGER,
-    section_num INTEGER NOT NULL,
-    room CHAR(10),
-    sec_time char(25),
-
-    PRIMARY KEY(course_num, section_num),
-    CONSTRAINT f1 FOREIGN KEY (course_num) REFERENCES Courses(course_id)
 );
 
 CREATE TABLE Curriculum (
     currID INTEGER PRIMARY KEY,
     curr_name CHAR(25) NOT NULL,
     credit_hours INTEGER NOT NULL
+);
+
+CREATE TABLE Students (
+    s_gnumber INTEGER PRIMARY KEY,
+    s_name CHAR(25) NOT NULL,
+    s_credits INTEGER NOT NULL,
+    s_standing INTEGER NOT NULL,
+    s_curriculum INTEGER NOT NULL,
+
+    CONSTRAINT f0 FOREIGN KEY (s_curriculum) REFERENCES Curriculum(currID)
+);
+
+CREATE TABLE Sections (
+    course_num INTEGER,
+    section_num INTEGER,
+    room CHAR(10),
+    sec_time char(25),
+
+    CONSTRAINT p_key PRIMARY KEY(course_num, section_num),
+    CONSTRAINT f1 FOREIGN KEY (course_num) REFERENCES Courses(course_id)
 );
 
 CREATE TABLE Languages (
@@ -94,6 +97,7 @@ CREATE TABLE Takes (
 CREATE TABLE Part_Of (
     curr_id INTEGER,
     gnumber INTEGER,
+    status CHAR(25),
     PRIMARY KEY(curr_id, gnumber),
     CONSTRAINT f7 FOREIGN KEY (curr_id) REFERENCES Curriculum(currID),
     CONSTRAINT f8 FOREIGN KEY (gnumber) REFERENCES Students(s_gnumber)
@@ -168,6 +172,9 @@ INSERT INTO Sections VALUES(353, 1, 'MAK A116', '10:00 AM');
 INSERT INTO Sections VALUES(353, 2, 'MAK A118', '2:00 PM');
 INSERT INTO Sections VALUES(358, 1, 'Online', 'Async');
 INSERT INTO Sections VALUES(458, 1, 'MAK A118', '4:00 PM');
+INSERT INTO Sections VALUES(290, 1, NULL, NULL);
+INSERT INTO Sections VALUES(353, 3, NULL, NULL);
+INSERT INTO Sections VALUES(458, 2, NULL, NULL);
 
 -- Curriculum
 INSERT INTO Curriculum VALUES(10, 'Computer Science', 120);
