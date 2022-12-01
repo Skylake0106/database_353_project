@@ -38,6 +38,7 @@ CREATE TABLE Courses (
     course_id INTEGER PRIMARY KEY,
     course_name CHAR(75) NOT NULL,
     num_credits INTEGER NOT NULL,
+    -- One Attribute Constraint --
     CONSTRAINT one_att CHECK (num_credits >= 1 AND num_credits <= 5)
 );
 
@@ -63,11 +64,13 @@ CREATE TABLE Students (
 CREATE TABLE Sections (
     course_num INTEGER,
     section_num INTEGER,
+    section_prof INTEGER,
     room CHAR(10),
     sec_time char(25),
 
     -- Primary Key Constraint --
     CONSTRAINT p_key PRIMARY KEY(course_num, section_num),
+    CONSTRAINT prof FOREIGN KEY (section_prof) REFERENCES Professors(p_gnumber),
     CONSTRAINT f1 FOREIGN KEY (course_num) REFERENCES Courses(course_id)
 );
 
@@ -125,9 +128,9 @@ SET FEEDBACK OFF;
 
 -- Populate Professors
 INSERT INTO Professors VALUES(11111111, 'adamsr@gvsu.edu', 1, 'Robert Adams');
-INSERT INTO Professors VALUES(2222222,'alsabbaj@gvsu.edu', 1, 'Jamal Alsabbagh');
-INSERT INTO Professors VALUES(3333333, 'bhusevji@gvsu.edu', 2, 'Vijay Bhuse');
-INSERT INTO Professors VALUES(4444444, 'bobeldyd@gvsu.edu', 3, 'Denton Bobeldyk');
+INSERT INTO Professors VALUES(22222222,'alsabbaj@gvsu.edu', 1, 'Jamal Alsabbagh');
+INSERT INTO Professors VALUES(33333333, 'bhusevji@gvsu.edu', 2, 'Vijay Bhuse');
+INSERT INTO Professors VALUES(44444444, 'bobeldyd@gvsu.edu', 3, 'Denton Bobeldyk');
 INSERT INTO Professors VALUES(11223344, 'bowmnath@gvsu.edu', 3, 'Nathaniel Bowman');
 INSERT INTO Professors VALUES(55567892, 'carrieer@gvsu.edu', 3, 'Erin Carrier');
 INSERT INTO Professors VALUES(20304050, 'dowlinmi@gvsu.edu', 3, 'Michelle Dowling');
@@ -161,18 +164,19 @@ INSERT INTO Students VALUES(13467899, 'Janice Harold', 109, 2, 40);
 INSERT INTO Students VALUES(87432445, 'Hunter Bolt', 100, 2, 10);
 INSERT INTO Students VALUES(20983432, 'Paula Shargaloo', 123, 2, 10);
 INSERT INTO Students VALUES(14764545, 'Tom Gargle', 84, 3, 40);
+INSERT INTO Students VALUES(42948345, 'Joe Frank', 140, 4, 10);
 
 -- Populate Sections
-INSERT INTO Sections VALUES(290, 3, 'MAK A1115', '1:30 PM');
-INSERT INTO Sections VALUES(331, 2, 'MAK D2110', '3:00 PM');
-INSERT INTO Sections VALUES(350, 2, 'MAK A2115', '8:00 AM');
-INSERT INTO Sections VALUES(353, 1, 'MAK A1126', '10:00 AM');
-INSERT INTO Sections VALUES(353, 2, 'MAK A1118', '2:00 PM');
-INSERT INTO Sections VALUES(358, 1, 'Online', 'Async');
-INSERT INTO Sections VALUES(458, 1, 'MAK A118', '4:00 PM');
-INSERT INTO Sections VALUES(290, 1, NULL, NULL);
-INSERT INTO Sections VALUES(353, 3, NULL, NULL);
-INSERT INTO Sections VALUES(458, 2, NULL, NULL);
+INSERT INTO Sections VALUES(290, 3, 33333333, 'MAK A1115', '1:30 PM');
+INSERT INTO Sections VALUES(331, 2, 11111111, 'MAK D2110', '3:00 PM');
+INSERT INTO Sections VALUES(350, 2, 56565656, 'MAK A2115', '8:00 AM');
+INSERT INTO Sections VALUES(353, 1, 22222222, 'MAK A1126', '10:00 AM');
+INSERT INTO Sections VALUES(353, 2, 22222222, 'MAK A1118', '2:00 PM');
+INSERT INTO Sections VALUES(358, 1, 33333333, 'Online', 'Async');
+INSERT INTO Sections VALUES(458, 1, 55567892, 'MAK A118', '4:00 PM');
+INSERT INTO Sections VALUES(290, 1, 55567892, NULL, NULL);
+INSERT INTO Sections VALUES(353, 3, 22222222, NULL, NULL);
+INSERT INTO Sections VALUES(458, 2, 09090943, NULL, NULL);
 
 -- Populate Languages
 ----Kyle
@@ -215,9 +219,9 @@ INSERT INTO Languages VALUES('Python', 20983432);
 -- Populate Teaches
 INSERT INTO Teaches VALUES(11111111, 290, 1);
 INSERT INTO Teaches VALUES(11111111, 458, 3);
-INSERT INTO Teaches VALUES(2222222, 290, 1);
-INSERT INTO Teaches VALUES(3333333, 331, 1);
-INSERT INTO Teaches VALUES(4444444, 350, 2);
+INSERT INTO Teaches VALUES(22222222, 290, 1);
+INSERT INTO Teaches VALUES(33333333, 331, 1);
+INSERT INTO Teaches VALUES(44444444, 350, 2);
 INSERT INTO Teaches VALUES(11223344, 353, 3);
 INSERT INTO Teaches VALUES(11223344, 290, 3);
 INSERT INTO Teaches VALUES(55567892, 290, 1);
@@ -238,6 +242,9 @@ INSERT INTO Takes VALUES(20983432, 1, 353, 'B');
 INSERT INTO Takes VALUES(12131415, 1, 353, 'A');
 INSERT INTO Takes VALUES(14764545, 3, 290, 'F');
 INSERT INTO Takes VALUES(34474039, 2, 353, 'A-');
+INSERT INTO Takes VALUES(13467899, 1, 353, 'A');
+INSERT INTO Takes VALUES(13467899, 2, 353, 'B');
+INSERT INTO Takes VALUES(13467899, 3, 353, 'C');
 
 -- Populate Part_Of -- (currID, s_gnumber)
 INSERT INTO Part_Of VALUES(10, 23232323);
@@ -283,6 +290,13 @@ SELECT * FROM Makes_Up;
 ---- SQL Queries ----
 
 -- Query 1: A join involving at least 4 relations
+---- Find students who are in room MAK A1126 or are in coursenum 290
+SELECT DISTINCT S.s_name, S.s_gnumber, SE.room, CO.course_id
+	FROM Students S, Takes T, Sections SE, Courses CO
+	WHERE S.s_gnumber = T.gnum AND
+    T.sec_num = SE.section_num AND 
+    SE.course_num = CO.course_ID AND 
+    (SE.room = 'MAK A1126' OR CO.course_id = 290);
 
 
 -- Query 2: A self-join
@@ -295,7 +309,7 @@ WHERE S1.s_standing > 2
 
 
 -- Query 3: Union, Intersect, and/or Minus
----- Find the gnumber and name of students who are named Andrew or are seniors
+---- Find the gnumber and name of students named Andrew or are seniors
 SELECT s_gnumber, s_name
 FROM Students
 WHERE s_name LIKE 'Andrew%'
@@ -340,9 +354,19 @@ WHERE S.s_credits > 120
                             FROM Curriculum Cu
                             WHERE Cu.currID = 10);
 
-
 -- Query 8: A Relational Division Query
----- 
+---- Find all students who have taken all sections taught by Alsabbagh
+SELECT S.s_gnumber, S.s_name
+FROM Students S
+WHERE NOT EXISTS ((SELECT SE.section_num
+                   FROM Sections SE
+                   WHERE SE.section_prof = 22222222)
+                   MINUS
+                   (SELECT SE.section_num
+                   FROM Sections SE, Takes T
+                   WHERE S.s_gnumber = T.gnum
+                   AND SE.section_num = T.sec_num
+                   AND SE.section_prof = 22222222));
 
 
 -- Query 9: An Outer Join Query
@@ -360,7 +384,7 @@ INSERT INTO Sections VALUES(378, NULL, 'MAK A1105', '8:30 AM');
 INSERT INTO Students VALUES(12144623, 'Natalie Kline', 90, 3, 80);
 
 -- Testing <one_att>
-INSERT INTO Courses VALUES(287, 'George Has Fun', 6);
+INSERT INTO Courses VALUES(287, 'Internet Media and Programming', 6);
 
 -- Testing <two_one>
 INSERT INTO Students VALUES(12144623, 'Natalie Kline', 400, 3, 10);
