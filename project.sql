@@ -323,7 +323,12 @@ ORDER BY s_gnumber;
 
 -- Query 6: A Correlated Subquery
 ---- Find all courses that have a section without a room assigned
-
+SELECT C.course_name
+FROM Courses C
+WHERE C.course_id IN (SELECT S.course_num
+		FROM Sections S
+		WHERE S.course_num = C.course_id
+		AND S.room IS NULL);
 
 
 -- Query 7: A Non-Correlated Subquery
