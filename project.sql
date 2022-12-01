@@ -122,6 +122,10 @@ CREATE TABLE Makes_Up (
 
 
 -- 2-Attribute 1-Row Check:
+-- Do one of y'all want to check below por favor? ;)
+-- "Restricting juniors to have between 60 and 84 credits inclusive."
+-- CONSTRAINT s1 CHECK (s_standing = 3 AND (num_credits >= 60 AND num_credits <= 84))
+
 
 
 SET FEEDBACK OFF;
