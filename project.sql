@@ -158,8 +158,8 @@ INSERT INTO Students VALUES(12131415, 'Andrew Goodling', 120, 3);
 INSERT INTO Students VALUES(34474039, 'Justin Johnson', 110, 3);
 INSERT INTO Students VALUES(13467899, 'Janice Harold', 109, 2);
 INSERT INTO Students VALUES(87432445, 'Hunter Bolt', 100, 2);
-INSERT INTO Students VALUES(20983432, 'Paula Shargaloo', 94, 2);
-INSERT INTO Students VALUES(14764545, 'Tom Gargle', 112, 3);
+INSERT INTO Students VALUES(20983432, 'Paula Shargaloo', 123, 2);
+INSERT INTO Students VALUES(14764545, 'Tom Gargle', 121, 3);
 
 -- Populate Sections
 INSERT INTO Sections VALUES(290, 3, 'MAK A115', '1:30 PM');
@@ -308,6 +308,8 @@ FROM Students;
 
 
 -- Query 7: A Non-Correlated Subquery
+---- Find students that are enrolled in 
+
 
 
 -- Query 8: A Relational Division Query
