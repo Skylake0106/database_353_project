@@ -20,8 +20,9 @@ DROP TABLE Languages;
 DROP TABLE Sections;
 DROP TABLE Professors;
 DROP TABLE Courses;
-DROP TABLE Curriculum;
 DROP TABLE Students;
+DROP TABLE Curriculum;
+
 
 ---- Database Schema (Create Tables) ----
 
@@ -97,7 +98,6 @@ CREATE TABLE Takes (
 CREATE TABLE Part_Of (
     curr_id INTEGER,
     gnumber INTEGER,
-    status CHAR(25),
     PRIMARY KEY(curr_id, gnumber),
     CONSTRAINT f7 FOREIGN KEY (curr_id) REFERENCES Curriculum(currID),
     CONSTRAINT f8 FOREIGN KEY (gnumber) REFERENCES Students(s_gnumber)
@@ -122,14 +122,11 @@ CREATE TABLE Makes_Up (
 
 
 -- 2-Attribute 1-Row Check:
--- Do one of y'all want to check below por favor? ;)
--- "Restricting juniors to have between 60 and 84 credits inclusive."
--- CONSTRAINT s1 CHECK (s_standing = 3 AND (num_credits >= 60 AND num_credits <= 84))
 
 
 SET FEEDBACK OFF;
 
----- Populate Database ----
+---- Populate Databse ----
 
 -- Populate Professors
 INSERT INTO Professors VALUES(11111111, 'adamsr@gvsu.edu', 1, 'Robert Adams');
@@ -153,16 +150,22 @@ INSERT INTO Courses VALUES(458, 'System Security', 3);
 INSERT INTO Courses VALUES(241, 'System Level Programming', 6);
 INSERT INTO Courses VALUES(357, 'Mobile App', 5);
 
+-- Curriculum
+INSERT INTO Curriculum VALUES(10, 'Computer Science', 120);
+INSERT INTO Curriculum VALUES(20, 'Information Systems', 120);
+INSERT INTO Curriculum VALUES(30, 'Information Technology', 120);
+INSERT INTO Curriculum VALUES(40, 'Cybersecurity', 120);
+
 -- Populate Students
-INSERT INTO Students VALUES(23232323, 'Kyle Taylor', 113, 4);
-INSERT INTO Students VALUES(56543245, 'Skyler Ruiter', 120, 3);
-INSERT INTO Students VALUES(09384543, 'Jazzmin Finney', 101, 3);
-INSERT INTO Students VALUES(12131415, 'Andrew Goodling', 120, 3);
-INSERT INTO Students VALUES(34474039, 'Justin Johnson', 110, 3);
-INSERT INTO Students VALUES(13467899, 'Janice Harold', 109, 2);
-INSERT INTO Students VALUES(87432445, 'Hunter Bolt', 100, 2);
-INSERT INTO Students VALUES(20983432, 'Paula Shargaloo', 123, 2);
-INSERT INTO Students VALUES(14764545, 'Tom Gargle', 121, 3);
+INSERT INTO Students VALUES(23232323, 'Kyle Taylor', 113, 4, 10);
+INSERT INTO Students VALUES(56543245, 'Skyler Ruiter', 120, 3, 20);
+INSERT INTO Students VALUES(09384543, 'Jazzmin Finney', 101, 3, 10);
+INSERT INTO Students VALUES(12131415, 'Andrew Goodling', 120, 3, 30);
+INSERT INTO Students VALUES(34474039, 'Justin Johnson', 110, 3, 20);
+INSERT INTO Students VALUES(13467899, 'Janice Harold', 109, 2, 40);
+INSERT INTO Students VALUES(87432445, 'Hunter Bolt', 100, 2, 10);
+INSERT INTO Students VALUES(20983432, 'Paula Shargaloo', 123, 2, 10);
+INSERT INTO Students VALUES(14764545, 'Tom Gargle', 121, 3, 40);
 
 -- Populate Sections
 INSERT INTO Sections VALUES(290, 3, 'MAK A115', '1:30 PM');
@@ -175,12 +178,6 @@ INSERT INTO Sections VALUES(458, 1, 'MAK A118', '4:00 PM');
 INSERT INTO Sections VALUES(290, 1, NULL, NULL);
 INSERT INTO Sections VALUES(353, 3, NULL, NULL);
 INSERT INTO Sections VALUES(458, 2, NULL, NULL);
-
--- Curriculum
-INSERT INTO Curriculum VALUES(10, 'Computer Science', 120);
-INSERT INTO Curriculum VALUES(20, 'Information Systems', 120);
-INSERT INTO Curriculum VALUES(30, 'Information Technology', 120);
-INSERT INTO Curriculum VALUES(40, 'Cybersecurity', 120);
 
 -- Populate Languages
 ----Kyle
