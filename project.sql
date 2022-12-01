@@ -142,11 +142,13 @@ INSERT INTO Professors VALUES(09090943, 'kurmasz@gvsu.edu', 2, 'Zachary Kurmas')
 
 -- Populate Courses
 INSERT INTO Courses VALUES(290, 'Professional Responsibilities and Practices', 3);
-INSERT INTO Courses VALUES(331, 'Data Analysis Tools and Techniques', 3);
-INSERT INTO Courses VALUES(350, 'Introduction to Software Engineering', 3);
+INSERT INTO Courses VALUES(331, 'Data Analysis Tools and Techniques', 2);
+INSERT INTO Courses VALUES(350, 'Introduction to Software Engineering', 4);
 INSERT INTO Courses VALUES(353, 'Database', 3);
-INSERT INTO Courses VALUES(358, 'Information Assurance', 3);
+INSERT INTO Courses VALUES(358, 'Information Assurance', 4);
 INSERT INTO Courses VALUES(458, 'System Security', 3);
+INSERT INTO Courses VALUES(241, 'System Level Programming', 6);
+INSERT INTO Courses VALUES(357, 'Mobile App', 5);
 
 -- Populate Students
 INSERT INTO Students VALUES(23232323, 'Kyle Taylor', 113, 4);
